@@ -8,12 +8,12 @@ function initBell(sb, me) {
     "#nbox{position:fixed;top:56px;right:1rem;width:min(380px,calc(100% - 2rem));max-height:70vh;overflow:auto;background:#fff;color:#14233b;border:1px solid #c5d0e0;box-shadow:0 8px 24px rgba(18,41,74,.2);z-index:20}" +
     "#nbox a{display:block;padding:.7rem .9rem;border-bottom:1px solid #d5deea;color:inherit;text-decoration:none;font-size:.9rem}" +
     "#nbox a.un{background:#eaf0f8;font-weight:600}#nbox small{color:#5b6b84;font-weight:400}#nbox p{margin:0;padding:.9rem;color:#5b6b84}";
-  document.head.indexendChild(css);
+  document.head.appendChild(css);
 
   const btn = document.createElement("button");
   btn.className = "bell"; btn.setAttribute("aria-label", "ማሳወቂያዎች"); btn.innerHTML = '🔔<b hidden>0</b>';
   const box = document.createElement("div"); box.id = "nbox"; box.hidden = true;
-  document.body.indexendChild(box);
+  document.body.appendChild(box);
   const who = document.getElementById("who");
   who.parentNode.insertBefore(btn, who);
   const badge = btn.querySelector("b");
