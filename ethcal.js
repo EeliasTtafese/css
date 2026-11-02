@@ -33,3 +33,23 @@ const EC = (() => {
     },
   };
 })();
+
+// ስህተት ሲከሰት በገጹ አናት ላይ በቀይ መስመር ያሳያል (ችግርን ለመፈለግ ይረዳል)።
+(() => {
+  const show = (msg) => {
+    let b = document.getElementById("errbar");
+    if (!b) {
+      b = document.createElement("div"); b.id = "errbar";
+      b.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:99;background:#8a1c0b;color:#fff;padding:.5rem 1rem;font:600 .85rem sans-serif;white-space:pre-wrap";
+      (document.body || document.documentElement).appendChild(b);
+    }
+    b.textContent = "ስህተት፦ " + msg;
+  };
+  window.showErr = show;
+  window.addEventListener("error", (ev) => {
+    const t = ev.target;
+    if (t && t !== window && (t.src || t.href)) return show("ፋይል አልተጫነም፦ " + (t.src || t.href));
+    show(ev.message + " (" + String(ev.filename || "").split("/").pop() + ":" + ev.lineno + ")");
+  }, true);
+  window.addEventListener("unhandledrejection", (ev) => show(String((ev.reason && ev.reason.message) || ev.reason)));
+})();
