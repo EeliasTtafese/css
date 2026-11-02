@@ -119,7 +119,7 @@ function toast(t) { const el = $("toast"); el.textContent = t; el.hidden = false
   if (!m) { await sb.auth.signOut(); return location.replace("login.html"); }
   me = m; $("who").textContent = m.full_name;
   $("add-s").hidden = !mgr(); $("add-t").hidden = !mgr();
-  initBell(sb, me);
+  typeof initBell === "function" && initBell(sb, me);
   await loadAll();
   const want = Number(new URLSearchParams(location.search).get("task"));
   if (want) {
@@ -136,7 +136,7 @@ async function loadAll() {
     sb.from("goals").select("*").order("id"),
     sb.from("goal_progress").select("goal_id,tasks,progress_pct"),
     sb.from("members").select("id,full_name").order("full_name")]);
-  if (s.error || g.error) return toast("መረጃ መጫን አልተቻለም።");
+  if (s.error || g.error) { const em = (s.error || g.error).message; typeof showErr === "function" && showErr(em); return toast("መረጃ መጫን አልተቻለም፦ " + em); }
   strategies = s.data; goals = g.data; members = mm.data || [];
   progress = Object.fromEntries((p.data || []).map((x) => [x.goal_id, x]));
   renderTree();
